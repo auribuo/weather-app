@@ -1,0 +1,19 @@
+<mat-form-field>
+  <input
+    type="text"
+    placeholder="Stationssuche... "
+    #searchTerm
+    (keyup)="handleOnKeyUp(searchTerm.value)"
+    matInput
+    [matAutocomplete]="auto"
+  />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+<mat-autocomplete
+  #auto="matAutocomplete"
+  (optionSelected)="handleSelectedStation($event.option.value)"
+>
+  <mat-option *ngFor="let s of foundStations" [value]="s"
+    >{{ s.name }}
+  </mat-option>
+</mat-autocomplete>

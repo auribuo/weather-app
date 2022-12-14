@@ -1,0 +1,85 @@
+<div *ngIf="station; else fallback">
+  <h2>
+    {{ station.name }}
+  </h2>
+  <div>
+    Zuletzt aktualisiert: {{ station.lastUpdated.toLocaleDateString("de-DE") }}
+    {{ station.lastUpdated.toLocaleTimeString("de-DE") }} Uhr, Laengengrad
+    {{ station.longitude }}, Breitengrad {{ station.latitude }}
+  </div>
+  <div fxHide.lt-md="false" fxHide="true">
+    <mat-list>
+      <mat-list-item>
+        <h4 matLine style="font-weight: bold">{{ descriptions.t }}</h4>
+        <p matLine>{{ station.t }} {{ units.t }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.rh }}</h3>
+        <p matLine>{{ station.rh }} {{ units.rh }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.p }}</h3>
+        <p matLine>{{ station.p }} {{ units.p }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.n }}</h3>
+        <p matLine>{{ station.n }} {{ units.n }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.dd }}</h3>
+        <p matLine>{{ station.dd }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.ff }}</h3>
+        <p matLine>{{ station.ff }} {{ units.ff }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.sd }}</h3>
+        <p matLine>{{ station.sd }} {{ units.sd }}</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h3 matLine style="font-weight: bold">{{ descriptions.gs }}</h3>
+        <p matLine>{{ station.gs }} {{ units.gs }}</p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div fxHide.lt-md="true">
+    <table mat-table [dataSource]="table" class="">
+      <ng-container matColumnDef="name">
+        <td mat-cell *matCellDef="let element" style="font-weight: bold">
+          {{ element.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+      </ng-container>
+
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
+  <div fxHide.lt-md="true" fxHide="false">
+    <img
+      [src]="url"
+      *ngFor="let url of measurmentUrls"
+      style="margin-top: 1.5rem"
+    />
+  </div>
+</div>
+<ng-template #fallback>
+  <p>Lade...</p>
+</ng-template>
+<div>
+  <a mat-raised-button color="accent" [routerLink]="'/stations/' + sortOrder">
+    <mat-icon>arrow_back</mat-icon>
+    Zurück zu den Stationen
+  </a>
+</div>
