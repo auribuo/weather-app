@@ -1,5 +1,5 @@
-import { StationValley } from './../shared/station-valley';
-import { WeatherService } from './../shared/weather-service';
+import { StationValley } from '../shared/station-valley';
+import { WeatherService } from '../shared/weather-service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -29,13 +29,13 @@ export class StationListComponent implements OnInit {
         this.sortOrder !== 'precipitation' &&
         this.sortOrder !== 'airpressure'
       ) {
-        this.router.navigate(['/stations', 'name']);
+        await this.router.navigate(['/stations', 'name']);
       }
       this.stations = await this.ws.getAll(params.sort);
     });
   }
 
-  handleStationSelected(station: StationValley) {
-    this.router.navigate(['/stations', this.sortOrder, station.code]);
+  async handleStationSelected(station: StationValley): Promise<void> {
+    await this.router.navigate(['/stations', this.sortOrder, station.code]);
   }
 }

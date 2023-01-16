@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { StationValley } from './station-valley';
 
-import { map } from 'rxjs/operators';
 import { StationFactory } from './station-factory';
+import axios from "axios";
 
 const API =
   'http://daten.buergernetz.bz.it/services/weather/station?categoryId=1&lang=de&format=json';
@@ -12,34 +11,50 @@ const API =
 export class WeatherService {
   private stations!: StationValley[];
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  getAll(sortOrder: string): Promise<StationValley[]> {
+  // getAll(sortOrder: string): Promise<StationValley[]> {
+  //   if (this.stations != null) {
+  //     return new Promise<StationValley[]>((resolve) => {
+  //       resolve(this.sort(Object.assign([], this.stations), sortOrder));
+  //     });
+  //   } else {
+  //     return (
+  //       this.http
+  //         .get<any>(API)
+  //         .pipe(
+  //           map((response) => response.rows),
+  //           map((rawStations) =>
+  //             rawStations.map((rawStation: any) =>
+  //               StationFactory.fromObject(rawStation)
+  //             )
+  //           ),
+  //           map((stations) => (this.stations = this.sort(stations, sortOrder)))
+  //         )
+  //         .toPromise()
+  //     );
+  //   }
+  // }
+
+  async getAll(sortOrder: string): Promise<StationValley[]> {
     if (this.stations != null) {
       return new Promise<StationValley[]>((resolve) => {
-        resolve(this.sort(Object.assign([], this.stations), sortOrder));
+        const sortedStations = this.sort(Object.assign([], this.stations), sortOrder);
+        resolve(sortedStations);
       });
     } else {
-      return (
-        this.http
-          // rome-ignore lint/suspicious/noExplicitAny: <explanation>
-          .get<any>(API)
-          .pipe(
-            map((response) => response.rows),
-            map((rawStations) =>
-              // rome-ignore lint/suspicious/noExplicitAny: <explanation>
-              rawStations.map((rawStation: any) =>
-                StationFactory.fromObject(rawStation)
-              )
-            ),
-            map((stations) => (this.stations = this.sort(stations, sortOrder)))
-          )
-          .toPromise()
+      // use axios to fetch data from API, it's cleaner to read and doesn't use rxjs (which makes everything more complicated)
+      // https://github.com/axios/axios
+      const response = await axios.get(API);
+      const rawStations = response.data.rows;
+      const stations = rawStations.map((rawStation: any) =>
+        StationFactory.fromObject(rawStation)
       );
+      return (this.stations = this.sort(stations, sortOrder));
     }
   }
 
-  async getStations(term: string) {
+  async getStations(term: string): Promise<StationValley[]> {
     if (this.stations == null) {
       this.stations = await this.getAll('name');
     }
@@ -48,7 +63,7 @@ export class WeatherService {
     );
   }
 
-  async get(code: string) {
+  async get(code: string): Promise<StationValley | undefined> {
     if (this.stations == null) {
       this.stations = await this.getAll('name');
     }

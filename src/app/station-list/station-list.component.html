@@ -20,7 +20,6 @@
   <div fxHide.lt-sm="true" fxHide="false">
     <table mat-table [dataSource]="stations">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef style="display: none"></th>
         <td mat-cell *matCellDef="let station" style="font-weight: bold">
           <a [routerLink]="'/stations/' + sortOrder + '/' + station.code">
             {{ station.name }}
@@ -29,27 +28,23 @@
       </ng-container>
 
       <ng-container matColumnDef="t">
-        <th mat-header-cell *matHeaderCellDef style="display: none"></th>
         <td mat-cell *matCellDef="let station">
           {{ station.t }} {{ units.t }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="n">
-        <th mat-header-cell *matHeaderCellDef style="display: none"></th>
         <td mat-cell *matCellDef="let station">
           {{ station.n }} {{ units.n }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="p">
-        <th mat-header-cell *matHeaderCellDef style="display: none"></th>
         <td mat-cell *matCellDef="let station">
           {{ station.p }} {{ units.p }}
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="['name', 't', 'n', 'p']"></tr>
       <tr mat-row *matRowDef="let row; columns: ['name', 't', 'n', 'p']"></tr>
     </table>
   </div>

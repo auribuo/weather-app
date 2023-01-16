@@ -1,7 +1,5 @@
 <div *ngIf="station; else fallback">
-  <h2>
-    {{ station.name }}
-  </h2>
+  <h2>{{ station.name }} ({{ station.altitude }} m)</h2>
   <div>
     Zuletzt aktualisiert: {{ station.lastUpdated.toLocaleDateString("de-DE") }}
     {{ station.lastUpdated.toLocaleTimeString("de-DE") }} Uhr, Laengengrad
@@ -66,16 +64,22 @@
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
     </table>
   </div>
-  <div fxHide.lt-md="true" fxHide="false">
+  <div fxHide="false" fxHide.lt-sm="true">
     <img
       [src]="url"
       *ngFor="let url of measurmentUrls"
       style="margin-top: 1.5rem"
+      alt="measurement image"
     />
   </div>
 </div>
 <ng-template #fallback>
-  <p>Lade...</p>
+  <div *ngIf="error === ''; else error_template">
+    <p>Lade...</p>
+  </div>
+  <ng-template #error_template>
+    <p>{{ error }}</p>
+  </ng-template>
 </ng-template>
 <div>
   <a mat-raised-button color="accent" [routerLink]="'/stations/' + sortOrder">

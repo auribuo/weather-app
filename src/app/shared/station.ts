@@ -1,4 +1,4 @@
-import { Measurement } from './measurement';
+import {Measurement} from './measurement';
 
 export class Station {
   // Auf statische Variablen bzw. Methoden kann nur über den Klassennamen
@@ -46,7 +46,8 @@ export class Station {
     public longitude: number,
     public name: string,
     public measurements: Array<Measurement>
-  ) {  }
+  ) {
+  }
 
   toString(): string {
     return this.name;

@@ -1,7 +1,7 @@
-import { ActivatedRoute } from '@angular/router';
-import { WeatherService } from './../shared/weather-service';
-import { StationValley } from './../shared/station-valley';
-import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {WeatherService} from '../shared/weather-service';
+import {StationValley} from '../shared/station-valley';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'wa-station-detail',
@@ -9,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./station-detail.component.scss'],
 })
 export class StationDetailComponent implements OnInit {
-  constructor(private ws: WeatherService, private route: ActivatedRoute) {}
+  public error!: string;
+
+  constructor(private ws: WeatherService, private route: ActivatedRoute) {
+  }
 
   public station!: StationValley | undefined;
   public sortOrder!: string;
@@ -23,7 +26,7 @@ export class StationDetailComponent implements OnInit {
 
   public columnsToDisplay = ['name', 'value'];
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.sortOrder = this.route.snapshot.params.sort;
     this.station = await this.ws.get(this.route.snapshot.params.code);
     if (this.station) {
@@ -62,10 +65,12 @@ export class StationDetailComponent implements OnInit {
         },
       ];
       this.measurmentUrls = this.filterMeasurmentUrls();
+    } else {
+      this.error = "Station mit code '" + this.route.snapshot.params.code + "' nicht gefunden";
     }
   }
 
-  public filterMeasurmentUrls() {
+  public filterMeasurmentUrls(): string[] | undefined | any[] {
     switch (this.sortOrder) {
       case 'name':
         return this.station?.measurements.map((m) => m.imageUrl);

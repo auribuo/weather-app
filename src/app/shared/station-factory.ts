@@ -1,5 +1,5 @@
-import { Station } from './station';
-import { StationValley } from './station-valley';
+import {Station} from './station';
+import {StationValley} from './station-valley';
 
 export class StationFactory {
   // rome-ignore lint/suspicious/noExplicitAny: <explanation>

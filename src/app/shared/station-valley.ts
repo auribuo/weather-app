@@ -1,5 +1,5 @@
-import { Station } from './station';
-import { Measurement } from './measurement';
+import {Station} from './station';
+import {Measurement} from './measurement';
 
 export class StationValley extends Station {
   constructor(

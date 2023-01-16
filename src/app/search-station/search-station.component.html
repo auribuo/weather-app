@@ -1,19 +1,21 @@
-<mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Search</mat-label>
+  <mat-icon matSuffix>search</mat-icon>
   <input
-    type="text"
-    placeholder="Stationssuche... "
-    #searchTerm
-    (keyup)="handleOnKeyUp(searchTerm.value)"
     matInput
+    type="text"
+    placeholder="Search"
+    #search
+    (keyup)="handleOnKeyUp(search.value)"
     [matAutocomplete]="auto"
   />
-  <mat-icon matSuffix>search</mat-icon>
 </mat-form-field>
+
 <mat-autocomplete
   #auto="matAutocomplete"
   (optionSelected)="handleSelectedStation($event.option.value)"
 >
-  <mat-option *ngFor="let s of foundStations" [value]="s"
-    >{{ s.name }}
+  <mat-option *ngFor="let s of foundStations" [value]="s">
+    {{ s.name }}
   </mat-option>
 </mat-autocomplete>

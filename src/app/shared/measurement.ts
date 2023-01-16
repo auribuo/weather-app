@@ -3,5 +3,6 @@ export class Measurement {
     public code: string,
     public description: string,
     public imageUrl: string
-  ) { }
+  ) {
+  }
 }

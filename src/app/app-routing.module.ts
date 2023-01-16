@@ -1,12 +1,12 @@
-import { StationDetailComponent } from './station-detail/station-detail.component';
-import { StationListComponent } from './station-list/station-list.component';
-import { HomeComponent } from './home/home.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {StationDetailComponent} from './station-detail/station-detail.component';
+import {StationListComponent} from './station-list/station-list.component';
+import {HomeComponent} from './home/home.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/stations/name', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  {path: '', redirectTo: '/stations/name', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent},
   {
     path: 'stations/:sort',
     component: StationListComponent,
@@ -26,4 +26,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
